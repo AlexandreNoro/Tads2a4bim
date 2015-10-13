@@ -8,7 +8,14 @@
   <maven.compiler.source>1.8</maven.compiler.source>
   <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
-  
-  
+
   
 </project>
+
+ <Dependencies>
+ 	<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.190</version>
+</dependency>
+ </Dependencies> 
