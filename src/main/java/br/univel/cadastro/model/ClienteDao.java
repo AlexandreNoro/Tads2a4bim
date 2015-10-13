@@ -1,14 +1,19 @@
 package br.univel.cadastro.model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ClienteDao {
 
-	public void inserir(Cliente c);
-	public void atualizar(Cliente c);
-	public void excluir(Cliente c);
-	public Cliente buscar(int id);
+	public void inserir(Cliente c) throws SQLException;
+
+	public void atualizar(Cliente c) throws SQLException;
+
+	public void excluir(Cliente c) throws SQLException;
+
+	public Cliente buscar(int id) throws SQLException;
+
 	public Cliente buscarPorExemplo(Cliente c);
-	
+
 	public List<Cliente> listar();
 }
