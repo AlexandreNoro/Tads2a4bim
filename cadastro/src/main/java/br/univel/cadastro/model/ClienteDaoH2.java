@@ -12,6 +12,18 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	private static Connection con;
 
+	private static ClienteDaoH2 instanciar;
+	
+	private ClienteDaoH2(){
+		
+	}
+	
+	public static ClienteDaoH2 getNovaInstancia(){
+		if (instanciar == null) 
+			return instanciar = new ClienteDaoH2();
+			return instanciar;
+	}
+	
 	private void abrirConexao() throws SQLException {
 
 		String url = "jdbc:h2:~/Alexandre";
@@ -30,10 +42,14 @@ public class ClienteDaoH2 implements ClienteDao {
 	@Override
 	public void inserir(Cliente c) throws SQLException {
 		PreparedStatement ps = con
-				.prepareStatement("INSERT INTO PESSOA(ID,NOME) VALUES (?, ?)");
+				.prepareStatement("INSERT INTO CLIENTE(ID,NOME,ENDERECO,TELEFONE,CIDADE,UF) VALUES (?, ?, ?, ?, ?, ?)");
 
-		ps.setInt(1, 1);
-		ps.setString(2, "Hugo");
+		ps.setInt(1, c.getId());
+		ps.setString(2, c.getNome());
+		ps.setString(3, c.getEndereço());
+		ps.setString(4, c.getTelefone());
+		ps.setString(5, c.getCidade());
+		ps.setString(6, c.getUf());
 
 		int res = ps.executeUpdate();
 
@@ -46,11 +62,14 @@ public class ClienteDaoH2 implements ClienteDao {
 	@Override
 	public void atualizar(Cliente c) throws SQLException {
 		PreparedStatement ps = con
-				.prepareStatement("UPDATE PESSOA SET ID = ?, NOME = ? WHERE ID = ?");
+				.prepareStatement("UPDATE CLIENTE SET NOME = ?,ENDERECO = ?,TELEFONE = ?,UF = ? WHERE ID =" + c.getId());
 
-		ps.setInt(1, 1);
-		ps.setString(2, "Alexandre");
-		ps.setInt(3, 1);
+		ps.setInt(1, c.getId());
+		ps.setString(2, c.getNome() + "");
+		ps.setString(3, c.getEndereço() + "");
+		ps.setString(4, c.getTelefone() + "");
+		ps.setString(5, c.getCidade() + "");
+		ps.setString(6, c.getUf() + "");
 
 		int res = ps.executeUpdate();
 
@@ -63,9 +82,8 @@ public class ClienteDaoH2 implements ClienteDao {
 	@Override
 	public void excluir(Cliente c) throws SQLException {
 		PreparedStatement ps = con
-				.prepareStatement("DELETE FROM PESSOA WHERE ID = ?");
+				.prepareStatement("DELETE FROM CLIENTE WHERE ID =" + c.getId());
 
-		ps.setInt(1, 1);
 
 		int res = ps.executeUpdate();
 
@@ -77,7 +95,7 @@ public class ClienteDaoH2 implements ClienteDao {
 	@Override
 	public Cliente buscar(int d) throws SQLException {
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM PESSOA");
+		ResultSet result = st.executeQuery("SELECT * FROM CLIENTE");
 		while (result.next()) {
 			// pega coluna pelo id
 			int id = result.getInt(1);
