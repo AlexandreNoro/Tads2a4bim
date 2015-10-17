@@ -7,7 +7,7 @@ public class Cliente {
 	private String endereço;
 	private String telefone;
 	private String cidade;
-	private String uf;
+	private Uf uf;
 
 	public int getId() {
 		return id;
@@ -49,12 +49,35 @@ public class Cliente {
 		this.cidade = cidade;
 	}
 
-	public String getUf() {
+	public Uf getUf() {
 		return uf;
 	}
 
-	public void setUf(String uf) {
+	public void setUf(Uf uf) {
 		this.uf = uf;
+	}
+	
+	public Cliente (int id, String nome, String endereco, String telefone, String cidade, Uf uf){
+		
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.endereço = endereco;
+		this.telefone = telefone;
+		this.cidade = cidade;
+		this.uf = uf;
+	}
+	
+	public Cliente (int id){
+		super();
+		this.id = id;
+	}
+	
+	
+	
+	public String toString(){
+		return "Cliente[ " + this.nome + ", " + this.endereço + ", "
+				+ this.telefone + ", " + this.cidade + ", " + this.uf.getNome() + "] \n";
 	}
 
 }
