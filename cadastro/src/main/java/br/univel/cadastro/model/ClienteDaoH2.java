@@ -13,17 +13,17 @@ public class ClienteDaoH2 implements ClienteDao {
 	private static Connection con;
 
 	private static ClienteDaoH2 instanciar;
-	
-	private ClienteDaoH2(){
-		
+
+	private ClienteDaoH2() {
+
 	}
-	
-	public static ClienteDaoH2 getNovaInstancia(){
-		if (instanciar == null) 
+
+	public static ClienteDaoH2 getNovaInstancia() {
+		if (instanciar == null)
 			return instanciar = new ClienteDaoH2();
-			return instanciar;
+		return instanciar;
 	}
-	
+
 	private void abrirConexao() throws SQLException {
 
 		String url = "jdbc:h2:~/Alexandre";
@@ -49,7 +49,7 @@ public class ClienteDaoH2 implements ClienteDao {
 		ps.setString(3, c.getEndereço());
 		ps.setString(4, c.getTelefone());
 		ps.setString(5, c.getCidade());
-		ps.setString(6, c.getUf());
+		ps.setObject(6, c.getUf().getNome());
 
 		int res = ps.executeUpdate();
 
@@ -62,14 +62,15 @@ public class ClienteDaoH2 implements ClienteDao {
 	@Override
 	public void atualizar(Cliente c) throws SQLException {
 		PreparedStatement ps = con
-				.prepareStatement("UPDATE CLIENTE SET NOME = ?,ENDERECO = ?,TELEFONE = ?,UF = ? WHERE ID =" + c.getId());
+				.prepareStatement("UPDATE CLIENTE SET NOME = ?,ENDERECO = ?,TELEFONE = ?,UF = ? WHERE ID ="
+						+ c.getId());
 
 		ps.setInt(1, c.getId());
 		ps.setString(2, c.getNome() + "");
 		ps.setString(3, c.getEndereço() + "");
 		ps.setString(4, c.getTelefone() + "");
 		ps.setString(5, c.getCidade() + "");
-		ps.setString(6, c.getUf() + "");
+		ps.setObject(6, c.getUf() + "");
 
 		int res = ps.executeUpdate();
 
@@ -84,7 +85,6 @@ public class ClienteDaoH2 implements ClienteDao {
 		PreparedStatement ps = con
 				.prepareStatement("DELETE FROM CLIENTE WHERE ID =" + c.getId());
 
-
 		int res = ps.executeUpdate();
 
 		ps.close();
@@ -93,18 +93,24 @@ public class ClienteDaoH2 implements ClienteDao {
 	}
 
 	@Override
-	public Cliente buscar(int d) throws SQLException {
-		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM CLIENTE");
-		while (result.next()) {
-			// pega coluna pelo id
-			int id = result.getInt(1);
-			// pega coluna pela String
-			String nome = result.getString("nome");
-			System.out.println(id + "" + nome);
-
+	public Cliente buscar(int id) throws SQLException {
+		Statement st = null;
+		ResultSet rs = null;
+		Cliente c = null;
+		Uf uf = Uf.PR;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT NOME,ENDERECO,TELEFONE,CIDADE,UF  FROM CLIENTE WHERE ID="
+					+ id);
+			rs.next();
+			c = new Cliente(id, rs.getString("nome"), rs.getString("endereco"),
+					rs.getString("telefone"), rs.getString("cidade"),
+					uf.validar(rs.getObject("uf")));
+		} catch (SQLException e) {
+			System.out.println("Erro na busca pelo Cliente desejado!\n"
+					+ e.getMessage());
 		}
-		return null;
+		return c;
 
 	}
 
@@ -118,6 +124,22 @@ public class ClienteDaoH2 implements ClienteDao {
 	public List<Cliente> listar() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int PegaId() {
+		Statement st = null;
+		ResultSet rs = null;
+		int id = 0;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT id FROM cliente");
+			while (rs.next()) {
+				id = rs.getInt("ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
 	}
 
 }
