@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDaoH2 implements ClienteDao {
@@ -93,7 +94,7 @@ public class ClienteDaoH2 implements ClienteDao {
 	}
 
 	@Override
-	public Cliente buscar(int id) throws SQLException {
+	public Cliente buscar(int id){
 		Statement st = null;
 		ResultSet rs = null;
 		Cliente c = null;
@@ -103,11 +104,11 @@ public class ClienteDaoH2 implements ClienteDao {
 			rs = st.executeQuery("SELECT NOME,ENDERECO,TELEFONE,CIDADE,UF  FROM CLIENTE WHERE ID="
 					+ id);
 			rs.next();
-			c = new Cliente(id, rs.getString("nome"), rs.getString("endereco"),
-					rs.getString("telefone"), rs.getString("cidade"),
-					uf.validar(rs.getObject("uf")));
+			c = new Cliente(id, rs.getString("NOME"), rs.getString("ENDERECO"),
+					rs.getString("TELEFONE"), rs.getString("CIDADE"),
+					uf.validar(rs.getObject("UF")));
 		} catch (SQLException e) {
-			System.out.println("Erro na busca pelo Cliente desejado!\n"
+			System.out.println("Ocorreu um erro ao buscar o Cliente desejado!\n"
 					+ e.getMessage());
 		}
 		return c;
@@ -116,14 +117,28 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	@Override
 	public Cliente buscarPorExemplo(Cliente c) {
-		// TODO Auto-generated method stub
+		// Não aprendido em sala ainda
 		return null;
 	}
 
 	@Override
 	public List<Cliente> listar() {
-		// TODO Auto-generated method stub
-		return null;
+		Statement st = null;
+		ResultSet rs = null;
+		Uf uf = Uf.PR;
+		List<Cliente> lc = new ArrayList<Cliente>();
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT ID,NOME,ENDERECO,TELEFONE,CIDADE,UF  FROM CLIENTE");
+			while (rs.next()) {
+				lc.add(new Cliente(rs.getInt("ID"), rs.getString("NOME"), rs
+						.getString("ENDERECO"), rs.getString("TELEFONE"), rs
+						.getString("CIDADE"), uf.validar(rs.getObject("UF"))));
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro ao listar Clientes!!\n" + e.getMessage());
+		}
+		return lc;
 	}
 
 	public int PegaId() {
@@ -132,7 +147,7 @@ public class ClienteDaoH2 implements ClienteDao {
 		int id = 0;
 		try {
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT id FROM cliente");
+			rs = st.executeQuery("SELECT ID FROM CLIENTE");
 			while (rs.next()) {
 				id = rs.getInt("ID");
 			}
