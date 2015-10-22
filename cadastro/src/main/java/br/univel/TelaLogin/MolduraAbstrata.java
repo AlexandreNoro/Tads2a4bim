@@ -1,22 +1,38 @@
 package br.univel.TelaLogin;
 
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
+
 import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JLabel;
+
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
-public abstract class AbstractPanel extends JPanel {
+public abstract class MolduraAbstrata extends JPanel {
 
+	
+	
+	private JButton btnFechar;
+
+	protected abstract void configuraMiolo();
+	
+	public void setCloseAction(ActionListener action){
+		btnFechar.addActionListener(action);
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public AbstractPanel() {
+	public MolduraAbstrata() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -36,7 +52,7 @@ public abstract class AbstractPanel extends JPanel {
 		gbc_lblOl.gridy = 0;
 		panel.add(lblOl, gbc_lblOl);
 		
-		JButton btnFechar = new JButton("Fechar");
+		btnFechar = new JButton("Fechar");
 		btnFechar.setFont(new Font("Consolas", Font.BOLD, 12));
 		GridBagConstraints gbc_btnFechar = new GridBagConstraints();
 		gbc_btnFechar.anchor = GridBagConstraints.EAST;
@@ -47,6 +63,9 @@ public abstract class AbstractPanel extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
+		
+		
+		configuraMiolo();
 
 	}
 
