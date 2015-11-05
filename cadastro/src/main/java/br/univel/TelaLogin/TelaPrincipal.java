@@ -56,10 +56,9 @@ public class TelaPrincipal extends JFrame {
 			}
 
 			private void AbrirTela() {
-				TelaCadastroCliente telaCadastroCliente = new TelaCadastroCliente();
+				final TelaCadastroCliente telaCadastroCliente = new TelaCadastroCliente();
 				ActionListener action = new ActionListener() {
 					
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						tabbedPane.remove(telaCadastroCliente);
 						

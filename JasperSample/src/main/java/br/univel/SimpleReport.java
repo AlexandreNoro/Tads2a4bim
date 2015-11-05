@@ -16,7 +16,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class SimpleReport {
 
-	private String arq = "C:\\Users\\Alexandre Noro\\JaspersoftWorkspace\\MyReports\\simples.jasper";
+	private String arq = "C:\\Users\\Alexandre H. Noro\\JaspersoftWorkspace\\MyReports\\simples.jasper";
 
 	public SimpleReport() {
 

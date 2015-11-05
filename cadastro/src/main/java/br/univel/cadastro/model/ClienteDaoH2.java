@@ -40,7 +40,6 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	}
 
-	@Override
 	public void inserir(Cliente c) throws SQLException {
 		PreparedStatement ps = con
 				.prepareStatement("INSERT INTO CLIENTE(ID,NOME,ENDERECO,TELEFONE,CIDADE,UF) VALUES (?, ?, ?, ?, ?, ?)");
@@ -60,7 +59,6 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	}
 
-	@Override
 	public void atualizar(Cliente c) throws SQLException {
 		PreparedStatement ps = con
 				.prepareStatement("UPDATE CLIENTE SET NOME = ?,ENDERECO = ?,TELEFONE = ?,UF = ? WHERE ID ="
@@ -81,7 +79,6 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	}
 
-	@Override
 	public void excluir(Cliente c) throws SQLException {
 		PreparedStatement ps = con
 				.prepareStatement("DELETE FROM CLIENTE WHERE ID =" + c.getId());
@@ -93,7 +90,6 @@ public class ClienteDaoH2 implements ClienteDao {
 		System.out.println(res + "Registro deletado.");
 	}
 
-	@Override
 	public Cliente buscar(int id){
 		Statement st = null;
 		ResultSet rs = null;
@@ -115,13 +111,11 @@ public class ClienteDaoH2 implements ClienteDao {
 
 	}
 
-	@Override
 	public Cliente buscarPorExemplo(Cliente c) {
 		// Não aprendido em sala ainda
 		return null;
 	}
 
-	@Override
 	public List<Cliente> listar() {
 		Statement st = null;
 		ResultSet rs = null;

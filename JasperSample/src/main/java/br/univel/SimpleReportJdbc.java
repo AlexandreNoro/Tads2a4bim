@@ -13,7 +13,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class SimpleReportJdbc {
 
-	private String arq = "C:\\Users\\Alexandre Noro\\JaspersoftWorkspace\\MyReports\\simplesjdbc.jasper";
+	private String arq = "C:\\Users\\Alexandre H. Noro\\JaspersoftWorkspace\\MyReports\\simplesjdbc.jasper";
 	private Connection con;
 
 	public SimpleReportJdbc() throws SQLException {
